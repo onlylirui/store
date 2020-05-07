@@ -17,7 +17,7 @@
         </div>
         <div class="right-bottom togger">
             <span>新人拼团</span>
-            <span>今日特价</span>
+            <span>1元起包邮</span>
            <img src="https://yanxuan-item.nosdn.127.net/431a09a43914483f4d70aeda8ecb8a59.png"/>
             <div>
                 <span>￥89</span>￥69
@@ -25,12 +25,19 @@
         </div>
     </div>
   </div>
+  <div class="line-Node"></div>
+  <div class="category">类目热销榜</div>
+  <ele-button></ele-button>
 </div>
 </template>
 
 <script>
+import buttom from '../ele-bottom/ele-bottom.vue'
 export default {
   name: 'ele-footer',
+  components: {
+      "ele-button":buttom
+  }
 }
 </script>
 
@@ -131,11 +138,34 @@ export default {
     height: 215px;
      padding-top:20px;
     padding-left: 30px;
-    background-color:#F9E9CF;
+    background-color:#FFECC2;
     border-radius: 10px;
     margin-left: 2px;
     margin-top: 2px;
     position: relative;
     box-sizing: border-box;
+}
+.right-bottom>span:nth-of-type(2){
+    display: block;
+    height: 32px;
+    width: 120px;
+    background-color:#D2BD99;
+    color: white;
+    font-size: 20px;
+    text-align:center;
+    line-height: 32px;
+}
+.line-Node{
+    height: 20px;
+    width: 750px;
+    background-color: #EEEEEE;
+    margin-top:30px
+}
+.category{
+    font-size: 34px;
+    height: 100px;
+    width:100%;
+    line-height: 100px;
+    margin-left: 35px;
 }
 </style>

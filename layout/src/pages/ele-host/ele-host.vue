@@ -181,7 +181,7 @@ export default {
 
 .border-content {
   overflow: hidden;
-  height: 2000px;
+  height:3000px;
 }
 
 .wraps {
