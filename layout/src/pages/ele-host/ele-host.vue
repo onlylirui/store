@@ -1,35 +1,39 @@
 <template>
 <div>
-  <div>
-    <div class="flex">
-      <img src="../../state/images/logo.png"/>
-      <div class="center">
-        <span class="iconfont icon-sousuo"></span>
-        <span>搜索商品，共26219款好物</span>
-      </div>
-      <div class="button">登录</div>
+  <div class="flex">
+    <img src="../../state/images/logo.png" />
+    <div class="center">
+      <span class="iconfont icon-sousuo"></span>
+      <span>搜索商品，共26219款好物</span>
+    </div>
+    <div class="button">登录</div>
   </div>
   <div ref="itemNode" class="items">
-    <div class="scroll" >
-      <div class="wrap item">推荐</div>
-      <div class="wrap item" v-for="(item) in list" :key="item.id">
-       {{item.name}}
+    <div class="scroll">
+      <div  class="wrap item" :class="{wraps:indexList===0}" @click="changed(0)">推荐</div>
+      <div class="wrap item" :class="{wraps:index+1===indexList}" 
+      v-for="(item,index) in list" :key="item.id"
+      @click="changed(index+1)"
+      >
+        {{item.name}}
       </div>
-      
     </div>
   </div>
-   <swiper class="list" ref="mySwiper" :options="swiperOptions">
-    <swiper-slide><img src="https://yanxuan.nosdn.127.net/da161a29b137b7e06f193f861032853b.jpg"/></swiper-slide>
-    <swiper-slide><img src="https://yanxuan.nosdn.127.net/b31d102f53aca8590919c4eef56c06d1.jpg"/></swiper-slide>
-    <swiper-slide><img src="https://yanxuan.nosdn.127.net/b7f94a107096c60038eba24f542d62c5.jpg"/></swiper-slide>
-   <swiper-slide><img src="https://yanxuan.nosdn.127.net/a16ac18c02bb26755dbcac1911631aa0.jpg"/></swiper-slide>
-    <swiper-slide><img src="https://yanxuan.nosdn.127.net/c3cbd397a24aeb2d55ffe7138bab2065.jpg"></swiper-slide>
-    <swiper-slide><img src="http://yanxuan-miaobi.nos-jd.163yun.com/3988954_1_3_wap_a54690d5bf49aad12d2045e02470a901.jpg"></swiper-slide>
-    <swiper-slide><img src="https://yanxuan.nosdn.127.net/3f9c98c377ae0470c82f808016144697.jpg"></swiper-slide>
-    <div class="swiper-pagination" slot="pagination"></div>
-   </swiper>
+  <div ref="scroll" class="borderNode">
+    <div class="border-content">
+      <swiper class="list" ref="mySwiper" :options="swiperOptions">
+        <swiper-slide><img src="https://yanxuan.nosdn.127.net/da161a29b137b7e06f193f861032853b.jpg" /></swiper-slide>
+        <swiper-slide><img src="https://yanxuan.nosdn.127.net/b31d102f53aca8590919c4eef56c06d1.jpg" /></swiper-slide>
+        <swiper-slide><img src="https://yanxuan.nosdn.127.net/b7f94a107096c60038eba24f542d62c5.jpg" /></swiper-slide>
+        <swiper-slide><img src="https://yanxuan.nosdn.127.net/a16ac18c02bb26755dbcac1911631aa0.jpg" /></swiper-slide>
+        <swiper-slide><img src="https://yanxuan.nosdn.127.net/c3cbd397a24aeb2d55ffe7138bab2065.jpg"></swiper-slide>
+        <swiper-slide><img src="http://yanxuan-miaobi.nos-jd.163yun.com/3988954_1_3_wap_a54690d5bf49aad12d2045e02470a901.jpg"></swiper-slide>
+        <swiper-slide><img src="https://yanxuan.nosdn.127.net/3f9c98c377ae0470c82f808016144697.jpg"></swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+      </swiper>
+      <ele-list></ele-list>
+    </div>
   </div>
-  <ele-list></ele-list>
 </div>
 </template>
 
@@ -40,113 +44,160 @@ import 'swiper/css/swiper.css'
 import BScroll from "better-scroll";
 import axios from 'axios'
 import list from '../../components/ele-list/ele-list.vue'
-Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
+Vue.use(VueAwesomeSwiper, /* { default options with global component } */ )
 export default {
-  name:'ele-host',
+  name: 'ele-host',
   components: {
-     "ele-list":list
+    "ele-list": list
   },
-  data () {
+  methods: {
+  changed(item){
+    this.indexList=item
+  }
+},
+  data() {
     return {
-       swiperOptions: {
-          pagination: {
-            el: '.swiper-pagination'
-          },
-          // Some Swiper option/callback...
-        }
-      }
-    },
-     computed: {
-      swiper() {
-        return this.$refs.mySwiper.$swiper
+      swiperOptions: {
+        pagination: {
+          el: '.swiper-pagination'
+        },
+        // Some Swiper option/callback...
       },
-      list(){
-       return this.$store.state.list
-      }
+      indexList: 0
+    }
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.$swiper
     },
-  async mounted () {
-    var body=await axios({
-      baseURL:'http://localhost:8080/3001',
-      url:'/getCateGorysListData',
-      method:'GET'
+    list() {
+      return this.$store.state.list
+    }
+  },
+  async mounted() {
+    var body = await axios({
+      baseURL: 'http://localhost:8081/3001',
+      url: '/getCateGorysListData',
+      method: 'GET'
     })
-    this.list=body.data
-     this.$nextTick(()=>{
-      new BScroll(this.$refs.itemNode,{
-      scrollX:true,
-      click:true,
+    this.list = body.data
+    this.$nextTick(() => {
+      new BScroll(this.$refs.itemNode, {
+        scrollX: true,
+        click: true,
+      })
+      new BScroll(this.$refs.scroll, {
+        click: true
+      })
+    });
+    this.$store.commit('inc', {
+      list: body.data
     })
-   });
-      this.$store.commit('inc',{list:body.data})  
   }
 }
 </script>
 
-
 <style>
-.flex{
+.flex {
   display: flex;
   padding: 15px 30px;
   align-items: center;
 }
-.flex img{
+
+.flex img {
   width: 138px;
-  height:40px;
+  height: 40px;
 }
-.flex .center{
-  flex:1;
+
+.flex .center {
+  flex: 1;
   height: 56px;
   background-color: #eeeeee;
   border-radius: 10px;
   line-height: 56px;
   text-align: center;
-  margin-left:15px
+  margin-left: 15px
 }
-.iconfont{
-  font-size:30px;
+
+.icon-sousuo {
+  font-size: 30px;
   margin-right: 10px;
 }
-.center:nth-child(2){
+
+.center:nth-child(2) {
   font-size: 25px;
 }
-.button{
-padding-top: 3px;
-padding-bottom: 3px;
-padding-left: 15px;
-padding-right: 15px;
+
+.button {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 15px;
+  padding-right: 15px;
   border: 2px solid red;
-  line-height:35px;
+  line-height: 35px;
   text-align: center;
-  margin-left:15px;
+  margin-left: 15px;
   border-radius: 10px;
-  color:red
+  color: red
 }
-.scroll{
+
+.scroll {
   display: flex;
   padding-left: 35px;
   white-space: nowrap;
-  width: 100%;
+  width: 1292px;
+  transition-timing-function: none
+}
+
+.items {
+  display: inline-block;
+  width: 750px;
   overflow: hidden;
-  transition-timing-function:none
 }
-.items{
- display: inline-block;
+
+.item {
+  font-size: 28px;
+  padding: 0 15px;
+  height: 80px;
+  line-height: 80px;
+  display: inline-block;
 }
-.item{
-font-size: 28px;
-display: block;
-padding: 0 15px;
-height: 80px;
-line-height: 80px;
-}
-.list{
+
+.list {
   width: 100%;
   height: 300px;
   display: inline-block;
 }
-.list img{
+
+.list img {
   height: 370px;
-  width:750px;
+  width: 750px;
 }
 
+.borderNode {
+  height: 1168px;
+  overflow: hidden;
+}
+
+.border-content {
+  overflow: hidden;
+  height: 2000px;
+}
+
+.wraps {
+  position: relative;
+}
+
+.wraps::after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 4px;
+  width: 80%;
+  background-color: red;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 4px;
+}
 </style>

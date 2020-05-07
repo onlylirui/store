@@ -39,9 +39,9 @@ export default {
 <style>
 	/*每个页面公共css */
   #app{
-    height:100%;
-    width:100%;
-     overflow: hidden;
+    height:1334px;
+    width:750px;
+    overflow: hidden;
   }
 .iconfont{
   font-size:40px;
@@ -50,7 +50,7 @@ export default {
   font-size: 12px;
 }
 .active{
-  position: absolute;
+  position: fixed;
   bottom: 20px;
 }
 </style>
