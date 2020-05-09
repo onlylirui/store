@@ -8,7 +8,8 @@
   </ul>
    <ul class="ulNode">
      <li :v-if="add.kingKongList" v-for="(item,index) in add.kingKongList" :key="index">
-       <img :src="item.picUrl">
+       
+       <img :src="item.picUrl" v-lazy="item.picUrl">
        <span>{{item.text}}</span>
      </li>
    </ul>
@@ -20,6 +21,15 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import { Lazyload } from 'vant';
+
+Vue.use(Lazyload);
+
+// 注册时可以配置额外的选项
+Vue.use(Lazyload, {
+  lazyComponent: true,
+});
 import footer from '../ele-footer/ele-footer.vue'
 import axios from 'axios'
 export default {
@@ -39,7 +49,7 @@ components: {
 },
 async mounted () {
   var body=await axios({
-    baseURL:'http://localhost:8081/3001',
+    baseURL:'http://localhost:8080/3001',
     url:'/getIndexData',
     method:'GET'
   })

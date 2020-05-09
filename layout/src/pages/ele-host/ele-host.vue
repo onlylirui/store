@@ -10,11 +10,8 @@
   </div>
   <div ref="itemNode" class="items">
     <div class="scroll">
-      <div  class="wrap item" :class="{wraps:indexList===0}" @click="changed(0)">推荐</div>
-      <div class="wrap item" :class="{wraps:index+1===indexList}" 
-      v-for="(item,index) in list" :key="item.id"
-      @click="changed(index+1)"
-      >
+      <div class="wrap itemss" :class="{wraps:indexList===0}" @click="changed(0)">推荐</div>
+      <div class="wrap itemss" :class="{wraps:index+1===indexList}" v-for="(item,index) in list" :key="item.id" @click="changed(index+1)">
         {{item.name}}
       </div>
     </div>
@@ -39,6 +36,10 @@
 
 <script>
 import Vue from 'vue'
+Vue.prototype.$ELEMENT = {
+  size: 'small',
+  zIndex: 3000
+};
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import BScroll from "better-scroll";
@@ -51,10 +52,10 @@ export default {
     "ele-list": list
   },
   methods: {
-  changed(item){
-    this.indexList=item
-  }
-},
+    changed(item) {
+      this.indexList = item
+    }
+  },
   data() {
     return {
       swiperOptions: {
@@ -63,7 +64,8 @@ export default {
         },
         // Some Swiper option/callback...
       },
-      indexList: 0
+      indexList: 0,
+      styleobj: []
     }
   },
   computed: {
@@ -76,7 +78,7 @@ export default {
   },
   async mounted() {
     var body = await axios({
-      baseURL: 'http://localhost:8081/3001',
+      baseURL: 'http://localhost:8080/3001',
       url: '/getCateGorysListData',
       method: 'GET'
     })
@@ -98,6 +100,18 @@ export default {
 </script>
 
 <style>
+.listhot {
+  height: 80px;
+  width: 80px;
+  background-color: #f2f5f6;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .12);
+  text-align: center;
+  line-height: 40px;
+  color: #1989fa;
+
+  font-size:30px
+}
+
 .flex {
   display: flex;
   padding: 15px 30px;
@@ -155,7 +169,7 @@ export default {
   overflow: hidden;
 }
 
-.item {
+.itemss {
   font-size: 28px;
   padding: 0 15px;
   height: 80px;
@@ -181,7 +195,7 @@ export default {
 
 .border-content {
   overflow: hidden;
-  height:3000px;
+  height:5724px;
 }
 
 .wraps {
