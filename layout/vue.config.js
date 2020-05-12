@@ -7,15 +7,23 @@ function resolve (dir) {
 const postcss = px2rem({remUnit: 75})
 module.exports={
     lintOnSave:false,
-    devServer:{//自动开启浏览器,devServer为静态资源服务器,所有的代码都放在这里
+    devServer:{
         open:true,
-        proxy:{ //这个是配置代理
+        proxy:{ 
              '/3001':{
                  target: 'http://localhost:3001',
                  changeOrigin: true,//是否进行代理
                  pathRewrite:{
                      "^/3001":""
                  }
+             },
+             '/api':{
+                target:'https://m.you.163.com',
+                changeOrigin: true,
+                secure:true,
+                pathRewrite:{
+                    "^/api":""
+                },
              }
      },
  },

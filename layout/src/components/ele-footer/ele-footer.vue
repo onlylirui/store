@@ -1,5 +1,4 @@
 <template>
-<lazy-component>
 <div class="ele-footer">
   <span class="bottom">-新人专享好礼-</span>
   <div class="flexs">
@@ -30,19 +29,10 @@
   <div class="category">类目热销榜</div>
   <ele-button></ele-button>
 </div>
-</lazy-component>
 </template>
 
 <script>
 import Vue from 'vue';
-import { Lazyload } from 'vant';
-
-Vue.use(Lazyload);
-
-// 注册时可以配置额外的选项
-Vue.use(Lazyload, {
-  lazyComponent: true,
-});
 import buttom from '../ele-bottom/ele-bottom.vue'
 export default {
   name: 'ele-footer',

@@ -4,7 +4,7 @@
     <img src="../../state/images/logo.png" />
     <div class="center">
       <span class="iconfont icon-sousuo"></span>
-      <span>搜索商品，共26219款好物</span>
+      <input @click="input" class="textList" type="text" placeholder="搜索商品，共26219款好物"/>
     </div>
     <div class="button">登录</div>
   </div>
@@ -26,7 +26,7 @@
         <swiper-slide><img src="https://yanxuan.nosdn.127.net/c3cbd397a24aeb2d55ffe7138bab2065.jpg"></swiper-slide>
         <swiper-slide><img src="http://yanxuan-miaobi.nos-jd.163yun.com/3988954_1_3_wap_a54690d5bf49aad12d2045e02470a901.jpg"></swiper-slide>
         <swiper-slide><img src="https://yanxuan.nosdn.127.net/3f9c98c377ae0470c82f808016144697.jpg"></swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
+        <div class="swiper-scrollbar" slot="scrollbar"></div>
       </swiper>
       <ele-list></ele-list>
     </div>
@@ -54,13 +54,16 @@ export default {
   methods: {
     changed(item) {
       this.indexList = item
+    },
+    input(){
+     this.$router.replace('/input')
     }
   },
   data() {
     return {
       swiperOptions: {
-        pagination: {
-          el: '.swiper-pagination'
+        scrollbar: {
+          el: '.swiper-scrollbar'
         },
         // Some Swiper option/callback...
       },
@@ -69,11 +72,15 @@ export default {
     }
   },
   computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper
+    swiper: {
+      get: function () {
+        return this.$refs.mySwiper.$swiper
+      },
     },
-    list() {
-      return this.$store.state.list
+    list: {
+      get: function () {
+        return this.$store.state.list
+      }
     }
   },
   async mounted() {
@@ -100,6 +107,10 @@ export default {
 </script>
 
 <style>
+.textList{
+  background-color:#EEEEEE;
+  width: 300px;
+}
 .listhot {
   height: 80px;
   width: 80px;
@@ -109,7 +120,7 @@ export default {
   line-height: 40px;
   color: #1989fa;
 
-  font-size:30px
+  font-size: 30px
 }
 
 .flex {
@@ -195,7 +206,7 @@ export default {
 
 .border-content {
   overflow: hidden;
-  height:5724px;
+  height: 5724px;
 }
 
 .wraps {

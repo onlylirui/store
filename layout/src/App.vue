@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <router-view></router-view>
-  <van-tabbar v-model="active" class="active" active-color="red">
+  <van-tabbar v-show='$route.meta.showFooter' v-model="add" class="active" active-color="red">
     <van-tabbar-item class="iconfont icon-fangzi " replace to="/host">
       <div class="text">首页</div>
     </van-tabbar-item>
@@ -14,7 +14,7 @@
     <van-tabbar-item class="iconfont icon-gouwuche" replace to="/gooing">
       <div class="text">购物车</div>
     </van-tabbar-item>
-    <van-tabbar-item class="iconfont icon-ren" replace to="/person">
+    <van-tabbar-item class="iconfont icon-ren" replace to="/login">
       <div class="text">个人</div>
     </van-tabbar-item>
   </van-tabbar>
@@ -35,6 +35,11 @@ export default {
   data() {
     return {
       active: 0,
+    }
+  },
+  computed:{
+    add(){
+        return this.active=this.$route.meta.count
     }
   }
 }
